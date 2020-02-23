@@ -6,7 +6,7 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 17:02:21 by geliz             #+#    #+#             */
-/*   Updated: 2020/02/21 18:53:22 by geliz            ###   ########.fr       */
+/*   Updated: 2020/02/23 21:46:02 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ int		ft_find_command_in_path_dirs(t_data *in)
 	while (in->env_path[i] != NULL)
 	{
 		pd = opendir(in->env_path[i]);
-		if (ft_find_command_in_opened_dir(pd, in) == 1)
+		if (pd && ft_find_command_in_opened_dir(pd, in) == 1)
 			return (i);
 		i++;
 	}
-	return (i);
+	return (-1);
 }
 
 char	**ft_create_args_list(t_data *in)
@@ -55,31 +55,23 @@ char	**ft_create_args_list(t_data *in)
 	return (ret);
 }
 
-int		ft_execute_command(t_data *in, char **env, int i)
+int		ft_execute_command(t_data *in, char **env, char *cname)
 {
-	char	*cname;
 	char	**args;
-	int		err;
 	pid_t	c_pid;
+	int		status;
 
-	cname = ft_strjoin_arg("%s %s %s", in->env_path[i], "/", in->cmd);
-	if ((err = access(cname, X_OK)) == -1)
-	{
-		ft_printf("ACCESS ERROR HERE %s\n", cname);
-		return (-1); //ft_print_error()
-	}
 	args = ft_create_args_list(in);
 	c_pid = fork();
 	if (c_pid == 0)
 	{
 		if ((execve(cname, args, env)) == -1)
 			return (-1);
-		
 	}
 	else if (c_pid > 0)
 	{
-		
-		//delete_args;
+		waitpid(c_pid, &status, 0);
+		ft_delete_two_dimens_arr(&args);
 		return (0);
 	}
 	return (0);
@@ -87,30 +79,25 @@ int		ft_execute_command(t_data *in, char **env, int i)
 
 int		ft_execute_command_hub(t_data *in, char **env)
 {
-	/*
 	int		i;
-	
-	ft_printf("cmd = %s\narg = %s\npath = %s\n", in->cmd, in->arg, in->path);
-	i = 0;
-	(void)env;
-	while (env[i])
-	{
-		ft_printf("%s\n", env[i]);
-		i++;
-	}
-	while (in->env_path[i] != NULL)
-	{
-		ft_printf("%s\n", in->env_path[i]);
-		i++;
-	}
-	if (in->path)
-		return (1);
-	*/
-	int		i;
+	char	*cname;
+	int		err;
 
+	err = 0;
+	cname = NULL;
+	if (ft_check_and_exec_builtins(in, env) == 1)
+		return (0);
 	i = ft_find_command_in_path_dirs(in);
-	ft_printf("i = %i, dir = %s", i, in->env_path[i]);
-	ft_execute_command(in, env, i);
-	(void)env;
+	if (i == -1)
+		err = -1;
+	if (err == 0)
+		cname = ft_strjoin_arg("%s %s %s", in->env_path[i], "/", in->cmd);
+	if (err == 0 && access(cname, X_OK) == -1)
+		err = -2;
+//	ft_printf("i = %i, dir = %s", i, in->env_path[i]);
+	if (err == 0)
+		ft_execute_command(in, env, cname);
+	ft_strdel(&cname);
+	ft_print_error(err, in);
 	return (0);
 }

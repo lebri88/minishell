@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_print_error.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/21 13:54:36 by geliz             #+#    #+#             */
-/*   Updated: 2020/02/23 21:22:15 by geliz            ###   ########.fr       */
+/*   Created: 2020/02/23 17:52:55 by geliz             #+#    #+#             */
+/*   Updated: 2020/02/23 17:58:41 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		main(int argn, char **argv, char **environ)
+void	ft_print_error(int err, t_data *in)
 {
-	int		exit;
-
-	if (argn > 1)
-		return (-1);
-	(void)argv;
-	exit = 0;
-	ft_fprintf(2, "MSHELL$>");
-	while (exit != 1)
-		exit = ft_readstring(environ);
-	return (0);
+	if (err == -1)
+		ft_fprintf(2, "MSHELL: %s: command not found\n", in->cmd);
+	if (err == -2)
+		ft_fprintf(2, "MSHELL: %s: Permission denied\n", in->cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/04 14:39:25 by geliz             #+#    #+#             */
-/*   Updated: 2020/01/10 16:30:24 by geliz            ###   ########.fr       */
+/*   Updated: 2020/02/23 22:16:47 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ char	*ft_strdup(const char *src)
 	size_t			z;
 	size_t			i;
 
+	if (src == NULL)
+		return (NULL);
 	z = ft_strlen(src);
 	dest = malloc(sizeof(char) * (z + 1));
 	if (dest == NULL)
