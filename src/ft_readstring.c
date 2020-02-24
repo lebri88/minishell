@@ -6,7 +6,7 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 14:17:02 by geliz             #+#    #+#             */
-/*   Updated: 2020/02/23 22:17:14 by geliz            ###   ########.fr       */
+/*   Updated: 2020/02/24 13:06:14 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ int		ft_readstring(char **env)
 	if (!(in = ft_create_t_data(env)))
 		return (-1);
 	ft_parcing_commands(buf, in);
-
 	if (in->cmd)
 		ft_execute_command_hub(in, env);
 	ft_fprintf(2, "MSHELL$>");

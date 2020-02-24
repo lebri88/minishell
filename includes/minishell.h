@@ -6,7 +6,7 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 13:55:12 by geliz             #+#    #+#             */
-/*   Updated: 2020/02/23 21:50:33 by geliz            ###   ########.fr       */
+/*   Updated: 2020/02/24 13:26:14 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	ft_print_error(int err, t_data *in);
 
 int		ft_check_and_exec_builtins(t_data *in, char **env);
 
-void	ft_change_directory_cmd(t_data *in, char **env);
+int		ft_change_directory_cmd(t_data *in, char **env);
+
 
 #endif

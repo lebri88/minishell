@@ -6,7 +6,7 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/04 14:39:25 by geliz             #+#    #+#             */
-/*   Updated: 2020/02/23 22:16:47 by geliz            ###   ########.fr       */
+/*   Updated: 2020/02/24 13:12:07 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,12 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	char			*str;
 	size_t			i;
 
+	if (!s1 && !s2)
+		return (NULL);
+	if (!s1)
+		return (ft_strdup(s2));
+	if (!s2)
+		return (ft_strdup(s1));
 	lens1 = ft_strlen((char *)s1);
 	lens2 = ft_strlen((char *)s2);
 	str = ft_strnew(lens1 + lens2);
