@@ -6,7 +6,7 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 17:02:21 by geliz             #+#    #+#             */
-/*   Updated: 2020/02/24 13:12:18 by geliz            ###   ########.fr       */
+/*   Updated: 2020/02/24 19:00:29 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int		ft_execute_command_hub(t_data *in, char **env)
 
 	err = 0;
 	cname = NULL;
-	if (ft_check_and_exec_builtins(in, env) == 1)
+	if (ft_check_and_exec_builtins(in) == 1)
 		return (0);
 	i = ft_find_command_in_path_dirs(in);
 	if (i == -1)

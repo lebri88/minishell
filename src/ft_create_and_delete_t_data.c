@@ -6,7 +6,7 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 17:11:08 by geliz             #+#    #+#             */
-/*   Updated: 2020/02/23 22:03:02 by geliz            ###   ########.fr       */
+/*   Updated: 2020/02/24 18:46:07 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ void	ft_delete_t_data(t_data *in)
 	ft_strdel(&in->arg);
 	ft_strdel(&in->path);
 	ft_delete_two_dimens_arr(&in->env_path);
+	ft_strdel(&in->curdir);
+	ft_remove_env_list(in->env);
 	if (in)
 		free(in);
-	ft_strdel(&in->curdir);
 	in = NULL;
 }
 
@@ -81,5 +82,6 @@ t_data	*ft_create_t_data(char **env)
 	new->arg = NULL;
 	new->env_path = ft_get_path_from_environ(env);
 	new->curdir = ft_get_current_dir();
+	new->env = ft_env_to_list(env);
 	return (new);
 }
