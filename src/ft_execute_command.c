@@ -6,7 +6,7 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 17:02:21 by geliz             #+#    #+#             */
-/*   Updated: 2020/02/24 19:00:29 by geliz            ###   ########.fr       */
+/*   Updated: 2020/02/28 22:30:20 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ int		ft_execute_command_hub(t_data *in, char **env)
 		err = -1;
 	if (err == 0)
 		cname = ft_strjoin_arg("%s %s %s", in->env_path[i], "/", in->cmd);
+	if (err == -1)
+		err = ft_find_command_in_way_or_cur_dir(in, &cname);
 	if (err == 0 && access(cname, X_OK) == -1)
 		err = -2;
 //	ft_printf("i = %i, dir = %s", i, in->env_path[i]);

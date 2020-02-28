@@ -6,7 +6,7 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 18:29:38 by geliz             #+#    #+#             */
-/*   Updated: 2020/02/24 19:16:22 by geliz            ###   ########.fr       */
+/*   Updated: 2020/02/28 22:16:19 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,43 @@ void	ft_remove_env_list(t_env *list)
 	}
 }
 
+t_env	*ft_create_next_t_env_list(char *env, t_env *prev)
+{
+	t_env	*list;
+	int		i;
+
+	(void)prev;
+	if (!(list = malloc(sizeof(t_env))))
+		return (NULL);
+	i = 0;
+	while (env[i] != '=')
+		i++;
+	if (!(list->name = ft_strsub(env, 0, i)))
+		return (NULL);
+	if (!(list->value = ft_strdup(&env[i + 1])))
+		return (NULL);
+	list->next = NULL;
+	if (prev)
+		prev->next = list;
+	return (list);
+}
+
 t_env	*ft_env_to_list(char **env)
 {
-	int		i;
-	int		j;
-	t_env	*ret;
-	t_env	*temp;
+	t_env	*first;
+	t_env	*prev;
+	t_env	*cur;
 
-	i = 0;
-	j = 0;
-	temp = NULL;
-	while (env[i])
+	first = NULL;
+	prev = NULL;
+	while (*env)
 	{
-		if (!(ret = malloc(sizeof(t_env))))
+		if (!(cur = ft_create_next_t_env_list(*env, prev)))
 			return (NULL);
-		while (env[i][j] != '=')
-			j++;
-		ret->name = ft_strsub(env[i], 0, j);
-		ret->value = ft_strdup(&env[i][j + 1]);
-		ret->next = temp;
-		if (!ret->name || !ret->value)
-			return (NULL);
-		temp = ret;
-		j = 0;
-		i++;
+		if (!first)
+			first = cur;
+		prev = cur;
+		env++;
 	}
-	return (ret);
+	return (first);
 }

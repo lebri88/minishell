@@ -6,7 +6,7 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 16:58:08 by geliz             #+#    #+#             */
-/*   Updated: 2020/01/12 13:47:27 by geliz            ###   ########.fr       */
+/*   Updated: 2020/02/28 18:42:03 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int		ft_fprintf(int fd, const char *c, ...)
 	t_info		*info;
 	va_list		ap;
 	char		*str;
+	int			ret;
 
 	if (fd == -1)
 		return (0);
@@ -30,8 +31,10 @@ int		ft_fprintf(int fd, const char *c, ...)
 	write(fd, str, info->position);
 	ft_strdel(&str);
 	va_end(ap);
+	ret = info->position;
 	free(info);
-	return (info->position);
+	info = NULL;
+	return (ret);
 }
 
 int		ft_colorprintf(const char *c, ...)

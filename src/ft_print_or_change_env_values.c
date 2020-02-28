@@ -1,24 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_error.c                                   :+:      :+:    :+:   */
+/*   ft_print_or_change_env_values.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/23 17:52:55 by geliz             #+#    #+#             */
-/*   Updated: 2020/02/28 22:30:52 by geliz            ###   ########.fr       */
+/*   Created: 2020/02/28 20:00:55 by geliz             #+#    #+#             */
+/*   Updated: 2020/02/28 20:47:48 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_print_error(int err, t_data *in)
+int		ft_print_all_of_env_values(t_data *in)
 {
-	if (err == -1)
-		ft_fprintf(2, "MSHELL: %s: command not found\n", in->cmd);
-	if (err == -2)
-		ft_fprintf(2, "MSHELL: %s: Permission denied\n", in->cmd);
-	/*
-	**if you try to execute "/" original shell tells "ACCESS DENIED" =__=
-	*/
+	t_env	*temp;
+
+	temp = in->env;
+	while (temp)
+	{
+		ft_printf("%s=%s\n", temp->name, temp->value);
+		temp = temp->next;
+	}
+	return (1);
+}
+
+int		ft_set_environment(t_data *in)
+{
+	char	**args;
+
+	if (!(args = ft_strsplit(in->arg, ' ')))
+		return (-1);
+	return (0);
 }
