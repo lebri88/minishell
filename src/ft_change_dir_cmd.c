@@ -6,7 +6,7 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 15:13:44 by geliz             #+#    #+#             */
-/*   Updated: 2020/02/28 18:47:48 by geliz            ###   ########.fr       */
+/*   Updated: 2020/02/29 21:54:26 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,30 @@ int		ft_change_old_pwd_in_env(t_data *in)
 	return (1);
 }
 
-int		ft_get_first_arg(char *str, char **arg)
+int		ft_get_first_arg(char *str, char **arg, t_data *in)
 {
 	int		i;
-	char	*ret;
+	t_env	*temp;
 
 	if (!str)
 		return (1);
 	i = 0;
 	while (str[i] != ' ' && str[i] != '\0')
 		i++;
-	if (!(ret = ft_strsub(str, 0, i)))
-		return (-1);
-	*arg = ret;
+	if (str[0] == '~' && str[1] == '/')
+	{
+		temp = in->env;
+		while (ft_strcmp(temp->name, "HOME") != 0)
+			temp = temp->next;
+		if (!(*arg = ft_strjoin_arg("%s %f", temp->value,
+			ft_strsub(str, 1, (i - 1)))))
+			return (-1);
+	}
+	else
+	{
+		if (!(*arg = ft_strsub(str, 0, i)))
+			return (-1);
+	}
 	return (1);
 }
 
@@ -61,7 +72,7 @@ int		ft_change_directory_cmd(t_data *in)
 	int		ret;
 
 	arg = NULL;
-	if (ft_get_first_arg(in->arg, &arg) == -1)
+	if (ft_get_first_arg(in->arg, &arg, in) == -1)
 		return (-1);
 	if (arg == NULL || ft_strcmp(arg, "~") == 0 || ft_strcmp(arg, "--") == 0)
 		ret = ft_change_to_home_directory(in);
@@ -71,7 +82,7 @@ int		ft_change_directory_cmd(t_data *in)
 		ret = ft_change_dir_from_root(in, arg);
 	else
 		ret = ft_change_dir_from_cur_dir(arg, in);
-	ft_strdel(&arg);	
+	ft_strdel(&arg);
 	if (ret == -1)
 		return (ret);
 	if (ret == 1)

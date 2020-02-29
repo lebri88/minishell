@@ -6,7 +6,7 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 21:52:32 by geliz             #+#    #+#             */
-/*   Updated: 2020/02/28 22:38:27 by geliz            ###   ########.fr       */
+/*   Updated: 2020/02/29 21:34:05 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,13 @@ int		ft_get_path_and_name(t_data *in, char **name, char **path)
 	return (1);
 }
 
+void	ft_close_dir_and_free_str(DIR *dir, char *fname, char *fpath)
+{
+	closedir(dir);
+	ft_strdel(&fname);
+	ft_strdel(&fpath);
+}
+
 int		ft_find_command_in_way_or_cur_dir(t_data *in, char **cname)
 {
 	DIR				*dir;
@@ -62,9 +69,10 @@ int		ft_find_command_in_way_or_cur_dir(t_data *in, char **cname)
 		{
 			if (!(*cname = ft_strdup(in->cmd)))
 				return (-1);
+			ft_close_dir_and_free_str(dir, fname, fpath);
 			return (0);
 		}
 	}
-//	ft_printf("path = %s name = %s\n", fpath, fname);
+	ft_close_dir_and_free_str(dir, fname, fpath);
 	return (-1);
 }

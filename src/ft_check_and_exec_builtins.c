@@ -6,7 +6,7 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 18:05:47 by geliz             #+#    #+#             */
-/*   Updated: 2020/02/28 21:14:47 by geliz            ###   ########.fr       */
+/*   Updated: 2020/02/29 21:39:19 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ int		ft_check_env_group_cmd(t_data *in)
 {
 	if (ft_strcmp(in->cmd, "env") == 0 || ft_strcmp(in->cmd, "ENV") == 0)
 		return (ft_print_all_of_env_values(in));
-	/*if (ft_strcmp(in->cmd, "setenv") == 0)
+	if (ft_strcmp(in->cmd, "setenv") == 0)
 		return (ft_set_environment(in));
 	if (ft_strcmp(in->cmd, "unsetenv") == 0)
-		return (ft_unset_environment(in));*/
+		return (ft_unset_environment(in));
 	return (0);
 }
 
@@ -30,7 +30,7 @@ int		ft_check_cd_cmd(t_data *in)
 	if (ft_strcmp("cd", in->cmd) == 0 || ft_strcmp("CD", in->cmd) == 0)
 	{
 		res = ft_change_directory_cmd(in);
-		return (res);
+		return (1);
 	}
 	return (0);
 }

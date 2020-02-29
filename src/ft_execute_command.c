@@ -6,7 +6,7 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 17:02:21 by geliz             #+#    #+#             */
-/*   Updated: 2020/02/28 22:30:20 by geliz            ###   ########.fr       */
+/*   Updated: 2020/02/29 21:23:19 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,29 +55,32 @@ char	**ft_create_args_list(t_data *in)
 	return (ret);
 }
 
-int		ft_execute_command(t_data *in, char **env, char *cname)
+int		ft_execute_command(t_data *in, char *cname)
 {
 	char	**args;
 	pid_t	c_pid;
 	int		status;
+	char	**env;
 
 	args = ft_create_args_list(in);
+	env = ft_take_env_from_struct(in);
 	c_pid = fork();
 	if (c_pid == 0)
 	{
 		if ((execve(cname, args, env)) == -1)
 			return (-1);
 	}
-	else if (c_pid > 0)
+	else if (c_pid != 0)
 	{
 		waitpid(c_pid, &status, 0);
 		ft_delete_two_dimens_arr(&args);
+		ft_delete_two_dimens_arr(&env);
 		return (0);
 	}
 	return (0);
 }
 
-int		ft_execute_command_hub(t_data *in, char **env)
+int		ft_execute_command_hub(t_data *in)
 {
 	int		i;
 	char	*cname;
@@ -98,7 +101,7 @@ int		ft_execute_command_hub(t_data *in, char **env)
 		err = -2;
 //	ft_printf("i = %i, dir = %s", i, in->env_path[i]);
 	if (err == 0)
-		ft_execute_command(in, env, cname);
+		ft_execute_command(in, cname);
 	ft_strdel(&cname);
 	ft_print_error(err, in);
 	return (0);

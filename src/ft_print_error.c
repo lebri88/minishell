@@ -6,7 +6,7 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 17:52:55 by geliz             #+#    #+#             */
-/*   Updated: 2020/02/28 22:30:52 by geliz            ###   ########.fr       */
+/*   Updated: 2020/02/29 19:19:40 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,10 @@ void	ft_print_error(int err, t_data *in)
 	/*
 	**if you try to execute "/" original shell tells "ACCESS DENIED" =__=
 	*/
+}
+
+int		ft_malloc_error(void)
+{
+	ft_fprintf(2, "Cannot allocate memory.");
+	return (1);
 }

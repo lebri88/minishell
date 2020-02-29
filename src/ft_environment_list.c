@@ -6,11 +6,39 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 18:29:38 by geliz             #+#    #+#             */
-/*   Updated: 2020/02/28 22:16:19 by geliz            ###   ########.fr       */
+/*   Updated: 2020/02/29 20:05:11 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	**ft_take_env_from_struct(t_data *in)
+{
+	t_env	*temp;
+	int		i;
+	char	**ret;
+
+	i = 0;
+	temp = in->env;
+	while (temp)
+	{
+		temp = temp->next;
+		i++;
+	}
+	if (!(ret = malloc(sizeof(char *) * (i + 1))))
+		return (NULL);
+	ret[i] = NULL;
+	i = 0;
+	temp = in->env;
+	while (temp)
+	{
+		if (!(ret[i] = ft_strjoin_arg("%s%s%s", temp->name, "=", temp->value)))
+			return (NULL);
+		temp = temp->next;
+		i++;
+	}
+	return (ret);
+}
 
 void	ft_remove_env_list(t_env *list)
 {

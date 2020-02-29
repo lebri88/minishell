@@ -6,7 +6,7 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 13:55:12 by geliz             #+#    #+#             */
-/*   Updated: 2020/02/28 22:15:10 by geliz            ###   ########.fr       */
+/*   Updated: 2020/02/29 20:36:39 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,9 @@ typedef struct		s_data
 
 int		main(int argn, char **argv, char **environ);
 
-int     ft_readstring(char **environ, t_data **in);
-int		ft_parcing_comamnds(char *str, t_data *in);
+int		ft_minishell_hub(char **env, t_data **info);
 char	*ft_skip_whitespaces(char *str);
-char	*ft_parcing_cmd(char *str, t_data *in);
+int     ft_parcing_cmd(char *str, t_data *in);
 
 t_data	*ft_create_t_data(char **env, t_data *in);
 char	*ft_get_current_dir(void);
@@ -49,9 +48,10 @@ char	**ft_get_path_from_environ(t_env *env);
 void	ft_delete_t_data(t_data *in);
 void	ft_delete_two_dimens_arr(char ***arr);
 
-int		ft_execute_command_hub(t_data *in, char **env);
+int		ft_execute_command_hub(t_data *in);
 
 void	ft_print_error(int err, t_data *in);
+int		ft_malloc_error(void);
 
 int		ft_check_and_exec_builtins(t_data *in);
 
@@ -65,8 +65,13 @@ void	ft_print_cd_error(char *path);
 
 t_env	*ft_env_to_list(char **env);
 void	ft_remove_env_list(t_env *list);
+char	**ft_take_env_from_struct(t_data *in);
+t_env	*ft_create_next_t_env_list(char *env, t_env *prev);
+
 
 int		ft_print_all_of_env_values(t_data *in);
+int		ft_set_environment(t_data *in);
+int		ft_unset_environment(t_data *in);
 
 int		ft_find_command_in_way_or_cur_dir(t_data *in, char **cname);
 
