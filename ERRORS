@@ -1,0 +1,6 @@
+echo works incorrect
+some '$' with path variables
+leaks (check notes)
+
+SEGFAULT if there's no PATH in env(check what's goin on if there's nothing in ENV)
+SEGFAULT if only spaces and tabulations in input!

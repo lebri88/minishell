@@ -6,7 +6,7 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 18:29:59 by geliz             #+#    #+#             */
-/*   Updated: 2020/02/28 18:47:52 by geliz            ###   ########.fr       */
+/*   Updated: 2020/03/01 14:05:48 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		ft_change_dir_from_cur_dir(char *arg, t_data *in)
 	t_env	*temp;
 
 	temp = in->env;
-	while (ft_strcmp(temp->name, "PWD") != 0)
+	while (temp && ft_strcmp(temp->name, "PWD") != 0)
 		temp = temp->next;
 	if (!(path = ft_strjoin_arg("%s %s %s", temp->value, "/", arg)))
 		return (-1);
@@ -56,8 +56,13 @@ int		ft_change_dir_to_old_pwd(t_data *in)
 
 	res = 0;
 	temp = in->env;
-	while (ft_strcmp(temp->name, "OLDPWD") != 0)
+	while (temp && ft_strcmp(temp->name, "OLDPWD") != 0)
 		temp = temp->next;
+	if (!temp)
+	{
+		ft_fprintf(2, "OLDPWD directory not set in environment\n");
+		return (-1);
+	}
 	if (temp)
 		res = chdir(temp->value);
 	if (res != 0)
@@ -75,8 +80,13 @@ int		ft_change_to_home_directory(t_data *in)
 	t_env	*temp;
 
 	temp = in->env;
-	while ((ft_strcmp(temp->name, "HOME")) != 0)
+	while (temp && (ft_strcmp(temp->name, "HOME") != 0))
 		temp = temp->next;
+	if (!temp)
+	{
+		ft_fprintf(2, "HOME directory not set in environment\n");
+		return (-1);
+	}
 	if (!(path = ft_strdup(temp->value)))
 		return (-1);
 	res = chdir(path);

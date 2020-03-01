@@ -6,7 +6,7 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 17:11:08 by geliz             #+#    #+#             */
-/*   Updated: 2020/02/28 18:43:35 by geliz            ###   ########.fr       */
+/*   Updated: 2020/03/01 15:34:45 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	ft_delete_t_data(t_data *in)
 		ft_strdel(&in->cmd);
 		ft_strdel(&in->arg);
 		ft_strdel(&in->path);
-		ft_delete_two_dimens_arr(&in->env_path);
 		ft_strdel(&in->curdir);
 		ft_remove_env_list(in->env);
 		free(in);
@@ -65,11 +64,12 @@ char	**ft_get_path_from_environ(t_env *env)
 {
 	char	**ret;
 
-	while (ft_strcmp(env->name, "PATH") != 0)
+	while (env && ft_strcmp(env->name, "PATH") != 0)
 		env = env->next;
-	ret = NULL;
-	if (env)
-		ret = ft_strsplit(env->value, ':');
+	if (!env)
+		return (NULL);
+	if (!(ret = ft_strsplit(env->value, ':')))
+		return (NULL);
 	return (ret);
 }
 
@@ -82,8 +82,6 @@ t_data	*ft_create_t_data(char **env, t_data *in)
 		ft_strdel(&in->cmd);
 		ft_strdel(&in->path);
 		ft_strdel(&in->arg);
-		ft_delete_two_dimens_arr(&in->env_path);
-		in->env_path = ft_get_path_from_environ(in->env);
 		ft_strdel(&in->curdir);
 		in->curdir = ft_get_current_dir();
 		return (in);
@@ -94,7 +92,6 @@ t_data	*ft_create_t_data(char **env, t_data *in)
 	new->path = NULL;
 	new->arg = NULL;
 	new->env = ft_env_to_list(env);
-	new->env_path = ft_get_path_from_environ(new->env);
 	new->curdir = ft_get_current_dir();
 	return (new);
 }

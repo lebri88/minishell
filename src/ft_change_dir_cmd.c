@@ -6,18 +6,34 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 15:13:44 by geliz             #+#    #+#             */
-/*   Updated: 2020/02/29 21:54:26 by geliz            ###   ########.fr       */
+/*   Updated: 2020/03/01 15:35:05 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		ft_add_oldpwd_to_env(t_data *in)
+{
+	t_env	*temp;
+	char	*oldpwd;
+
+	temp = in->env;
+	while (temp->next != NULL)
+		temp = temp->next;
+	if (!(oldpwd = ft_strjoin_arg("%s %s", "OLDPWD=", in->curdir)))
+		return (-1);
+	if (!(ft_create_next_t_env_list(oldpwd, temp)))
+		return (-1);
+	ft_strdel(&oldpwd);
+	return (0);
+}
 
 int		ft_change_old_pwd_in_env(t_data *in)
 {
 	t_env	*temp;
 
 	temp = in->env;
-	while (ft_strcmp(temp->name, "OLDPWD") != 0)
+	while (temp && ft_strcmp(temp->name, "OLDPWD") != 0)
 		temp = temp->next;
 	if (temp)
 	{
@@ -25,8 +41,10 @@ int		ft_change_old_pwd_in_env(t_data *in)
 		if (!(temp->value = ft_strdup(in->curdir)))
 			return (-1);
 	}
+	if (!temp && (ft_add_oldpwd_to_env(in) == -1))
+		return (-1);
 	temp = in->env;
-	while (ft_strcmp(temp->name, "PWD") != 0)
+	while (temp && ft_strcmp(temp->name, "PWD") != 0)
 		temp = temp->next;
 	if (temp)
 	{
@@ -72,6 +90,8 @@ int		ft_change_directory_cmd(t_data *in)
 	int		ret;
 
 	arg = NULL;
+	if (ft_check_and_set_home_pwd_env(in) == -1)
+		return (-1);
 	if (ft_get_first_arg(in->arg, &arg, in) == -1)
 		return (-1);
 	if (arg == NULL || ft_strcmp(arg, "~") == 0 || ft_strcmp(arg, "--") == 0)

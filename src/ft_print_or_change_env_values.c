@@ -6,7 +6,7 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 20:00:55 by geliz             #+#    #+#             */
-/*   Updated: 2020/02/29 22:00:57 by geliz            ###   ########.fr       */
+/*   Updated: 2020/03/01 15:22:32 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,41 +85,4 @@ int		ft_set_environment(t_data *in)
 		ret = ft_add_env_to_list(in, args);
 	ft_delete_two_dimens_arr(&args);
 	return (ret);
-}
-
-int		ft_unset_environment(t_data *in)
-{
-	t_env	*temp;
-	t_env	*prev;
-	char	**args;
-
-	temp = in->env;
-	prev = NULL;
-	if (in->arg == NULL)
-		return (1);
-	if (!(args = ft_strsplit(in->arg, ' ')))
-		return (ft_malloc_error());
-	while (temp)
-	{
-		if (ft_strcmp(temp->name, args[0]) == 0)
-		{
-			ft_strdel(&temp->name);
-			ft_strdel(&temp->value);
-			if (!prev)
-			{
-				in->env = temp->next;
-				temp->next = NULL;
-			}
-			else
-			{
-				prev->next = temp->next;
-				temp->next = NULL;
-			}
-			free(temp);
-		}
-		prev = temp;
-		temp = temp->next;
-	}
-	ft_delete_two_dimens_arr(&args);
-	return (1);
 }
