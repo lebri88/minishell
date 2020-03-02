@@ -60,7 +60,8 @@ int		ft_find_command_in_way_or_cur_dir(t_data *in, char **cname)
 		if (!(*cname = ft_strdup("/")))
 			return (0);
 	}
-	ft_get_path_and_name(in, &fname, &fpath);
+	if (ft_get_path_and_name(in, &fname, &fpath) == -1)
+		return (-1);
 	if (!(dir = opendir(fpath)))
 		return (-1);
 	while ((dr = readdir(dir)) != NULL)

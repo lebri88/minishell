@@ -66,11 +66,9 @@ void	ft_neg_pow_cycle(char temp[25000])
 	int		i;
 	int		ost;
 	int		tmp;
-	int		zero;
 
 	i = 0;
 	ost = 0;
-	zero = 0;
 	while (temp[i] != 0)
 	{
 		tmp = temp[i] == '0' ? 0 + ost : (temp[i] - '0') * 5 + ost;

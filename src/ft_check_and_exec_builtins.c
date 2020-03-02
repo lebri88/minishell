@@ -54,11 +54,9 @@ int		ft_check_env_group_cmd(t_data *in)
 
 int		ft_check_cd_cmd(t_data *in)
 {
-	int		res;
-
 	if (ft_strcmp("cd", in->cmd) == 0 || ft_strcmp("CD", in->cmd) == 0)
 	{
-		res = ft_change_directory_cmd(in);
+		ft_change_directory_cmd(in);
 		return (1);
 	}
 	return (0);

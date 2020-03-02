@@ -18,6 +18,7 @@
 # include <string.h>
 # include <dirent.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 
 typedef struct		s_env
 {

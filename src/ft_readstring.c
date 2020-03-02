@@ -12,9 +12,10 @@
 
 #include "minishell.h"
 
-char	*ft_print_promt_and_return_null(void)
+char	*ft_print_promt_and_return_null(char *buf)
 {
 	ft_fprintf(2, "MSHELL$>");
+	ft_strdel(&buf);
 	return (NULL);
 }
 
@@ -57,15 +58,15 @@ char	*ft_readstring(t_data *in, char **env)
 		return (NULL);
 	i = read(1, buf, 1024);
 	if (i == 1 && buf[i] == '\0')
-		return (ft_print_promt_and_return_null());
+		return (ft_print_promt_and_return_null(buf));
 	buf[i - 1] = '\0';
 	if (ft_strchr(buf, '$') != NULL)
 	{
 		if (!(buf = ft_change_env_variables_in_arg(env, buf, in)))
-			return (ft_print_promt_and_return_null());
+			return (ft_print_promt_and_return_null(buf));
 	}
 	if (!(whtsp = ft_skip_whitespaces(buf)))
-		return (ft_print_promt_and_return_null());
+		return (ft_print_promt_and_return_null(buf));
 	return (buf);
 }
 
