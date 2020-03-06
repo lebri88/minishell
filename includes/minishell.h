@@ -6,7 +6,7 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 13:55:12 by geliz             #+#    #+#             */
-/*   Updated: 2020/03/01 18:50:57 by geliz            ###   ########.fr       */
+/*   Updated: 2020/03/06 13:49:12 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,9 @@
 # include <dirent.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
+# include "structs.h"
 
-typedef struct		s_env
-{
-    char			*name;
-    char			*value;
-    struct s_env	*next;
-}					t_env;
-
-typedef struct		s_data
-{
-    char            *cmd;
-    char            *arg;
-    char            *path;
-    char            *curdir;
-    t_env           *env;
-}                   t_data;
 /*
 ** main.c
 */
@@ -45,7 +32,7 @@ int		main(int argn, char **argv, char **environ);
 int		ft_minishell_hub(char **env, t_data **info);
 char	*ft_readstring(t_data *in, char **env);
 char	*ft_skip_whitespaces(char *str);
-int     ft_parcing_cmd(char *str, t_data *in);
+int		ft_parcing_cmd(char *str, t_data *in);
 /*
 **ft_create_and_delete_t_data.c
 */
@@ -106,8 +93,9 @@ int		ft_print_all_of_env_values(t_data *in);
 /*
 **ft_find_command_in_way_or_cur_dir.c
 */
+int		ft_check_stat(char *cname);
 int		ft_find_command_in_way_or_cur_dir(t_data *in, char **cname);
-void	ft_close_dir_and_free_str(DIR *dir, char *fname, char *fpath);
+int		ft_close_dir_and_free_str(DIR *dir, char *fname, char *fpath);
 int		ft_get_path_and_name(t_data *in, char **name, char **path);
 /*
 **ft_check_and_set_home_pwd_env.c

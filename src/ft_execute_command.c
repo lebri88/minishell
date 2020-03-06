@@ -6,7 +6,7 @@
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 17:02:21 by geliz             #+#    #+#             */
-/*   Updated: 2020/03/01 15:34:01 by geliz            ###   ########.fr       */
+/*   Updated: 2020/03/06 13:43:24 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ int		ft_execute_command_hub(t_data *in)
 		err = ft_find_command_in_way_or_cur_dir(in, &cname);
 	if (err == 0 && access(cname, X_OK) == -1)
 		err = -2;
+	if (err == 0)
+		err = ft_check_stat(cname);
 	if (err == 0)
 		ft_execute_command(in, cname);
 	ft_strdel(&cname);

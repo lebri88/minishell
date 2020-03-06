@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_error.c                                   :+:      :+:    :+:   */
+/*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: geliz <geliz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/23 17:52:55 by geliz             #+#    #+#             */
-/*   Updated: 2020/03/06 13:41:14 by geliz            ###   ########.fr       */
+/*   Created: 2020/03/06 13:45:16 by geliz             #+#    #+#             */
+/*   Updated: 2020/03/06 13:47:21 by geliz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef STRUCTS_H
+# define STRUCTS_H
 
-void	ft_print_error(int err, t_data *in)
+typedef struct		s_env
 {
-	if (err == -1)
-		ft_fprintf(2, "MSHELL: %s: command not found\n", in->cmd);
-	if (err == -2)
-		ft_fprintf(2, "MSHELL: %s: Permission denied\n", in->cmd);
-}
+	char			*name;
+	char			*value;
+	struct s_env	*next;
+}					t_env;
 
-int		ft_malloc_error(void)
+typedef struct		s_data
 {
-	ft_fprintf(2, "Cannot allocate memory.");
-	return (1);
-}
+	char			*cmd;
+	char			*arg;
+	char			*path;
+	char			*curdir;
+	t_env			*env;
+}					t_data;
+#endif
